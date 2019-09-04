@@ -12,10 +12,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
 
-import com.ipay.Ipay;
-import com.ipay.IpayPayment;
-import com.ipay.IpayResultDelegate;
-import com.ipay.IpayR;
+// import com.ipay.Ipay;
+// import com.ipay.IpayPayment;
+// import com.ipay.IpayResultDelegate;
+// import com.ipay.IpayR;
+
+import com.ipay.IPayIH; 
+import com.ipay.IPayIHPayment; 
+import com.ipay.IPayIHR;   
 
 import android.content.Intent;
 import java.util.Locale;
@@ -208,7 +212,7 @@ public class IPay88 extends CordovaPlugin {
         }
 
         // iPay object.
-        IpayPayment payment = new IpayPayment();
+        IPayIHPayment payment = new IPayIHPayment();
         payment.setMerchantKey(merchantKey);
         payment.setMerchantCode(merchantCode);
         //payment.setAmount(String.format(Locale.US, "%.2f", Integer.valueOf(amount).floatValue()/100.0)); // http://developer.android.com/reference/java/util/Locale.html#default_locale
@@ -229,7 +233,7 @@ public class IPay88 extends CordovaPlugin {
         iPayDelegate = new ResultDelegate(); 
 
         // iPay88 intent.
-        Intent checkoutIntent = Ipay.getInstance().checkout(
+        Intent checkoutIntent = IPayIH.getInstance().checkout(
             payment,
             cordova.getActivity(),
             iPayDelegate
@@ -261,7 +265,7 @@ public class IPay88 extends CordovaPlugin {
             return;
         }
         
-        IpayR r = new IpayR();
+        IPayIHR r = new IPayIHR();
         r.setMerchantCode(merchantCode);
         r.setRefNo(refNo);
         r.setAmount(String.format(Locale.US, "%.2f", Integer.valueOf(amount).floatValue()/1.0));
@@ -274,7 +278,7 @@ public class IPay88 extends CordovaPlugin {
         try{
             // Create and save the iPay88 results delegate.
             iPayDelegate = new ResultDelegate();
-            Intent checkoutIntent = Ipay.getInstance().requery(r, cordova.getActivity(),iPayDelegate);
+            Intent checkoutIntent = IPayIH.getInstance().requery(r, cordova.getActivity(),iPayDelegate);
             
             cordova.startActivityForResult(null, checkoutIntent, IPAY88_ACT_REQUEST_CODE);
             cordova.setActivityResultCallback(this);
